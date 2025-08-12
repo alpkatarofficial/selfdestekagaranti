@@ -1,0 +1,15 @@
+# Node / Next.js
+node_modules/
+.next/
+out/
+dist/
+build/
+.vercel/
+.turbo/
+
+
+# Env & logs
+.env*
+*.log
+.DS_Store
+coverage/

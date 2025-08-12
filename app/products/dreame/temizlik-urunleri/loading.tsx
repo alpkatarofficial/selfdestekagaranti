@@ -1,0 +1,47 @@
+import { Skeleton } from "@/components/ui/skeleton"
+import { Card, CardContent } from "@/components/ui/card"
+
+export default function TemizlikUrunleriLoading() {
+  return (
+    <div className="min-h-screen bg-[#f8fafc]">
+      <div className="container mx-auto px-4 py-16 pt-24">
+        {/* Hero Section Skeleton */}
+        <div className="text-center mb-16">
+          <Skeleton className="h-8 w-64 mx-auto mb-4" />
+          <Skeleton className="h-12 w-96 mx-auto mb-6" />
+          <Skeleton className="h-6 w-full max-w-3xl mx-auto mb-8" />
+        </div>
+
+        {/* Features Skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="bg-white p-6 rounded-xl shadow-md text-center">
+              <Skeleton className="w-12 h-12 rounded-full mx-auto mb-4" />
+              <Skeleton className="h-6 w-32 mx-auto mb-2" />
+              <Skeleton className="h-4 w-full" />
+            </div>
+          ))}
+        </div>
+
+        {/* Product Cards Skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Card key={i}>
+              <Skeleton className="h-64 w-full" />
+              <CardContent className="p-6">
+                <Skeleton className="h-6 w-3/4 mb-2" />
+                <Skeleton className="h-4 w-1/2 mb-4" />
+                <div className="space-y-2 mb-4">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-full" />
+                </div>
+                <Skeleton className="h-8 w-24 mb-4" />
+                <Skeleton className="h-10 w-full" />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}

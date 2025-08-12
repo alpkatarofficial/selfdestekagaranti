@@ -1,0 +1,264 @@
+import { createClient } from "@supabase/supabase-js"
+
+// Thomson ürün verilerini doğrudan betiğin içine taşıdık
+const thomsonProducts = [
+  {
+    id: "thomson-tv-001",
+    model_name: "THOMSON-43UHD7000",
+    name: 'Thomson 43" 4K UHD Google TV',
+    description: "Canlı renkler ve akıllı özelliklerle 4K UHD deneyimi.",
+    tv_type: "Google TV",
+    resolution: "4K UHD",
+    image_url: "/placeholder.svg?height=400&width=600",
+    screen_size_inches: 43,
+    smart_features: ["Google Assistant", "Chromecast Built-in", "Netflix", "YouTube"],
+    ports: ["HDMI x3", "USB x2", "Ethernet"],
+    audio_output_watts: 20,
+  },
+  {
+    id: "thomson-tv-002",
+    model_name: "THOMSON-50UHD7000",
+    name: 'Thomson 50" 4K UHD Google TV',
+    description: "Geniş ekran ve üstün görüntü kalitesiyle sinematik deneyim.",
+    tv_type: "Google TV",
+    resolution: "4K UHD",
+    image_url: "/placeholder.svg?height=400&width=600",
+    screen_size_inches: 50,
+    smart_features: ["Google Assistant", "Chromecast Built-in", "Prime Video", "Disney+"],
+    ports: ["HDMI x3", "USB x2", "Optical Audio"],
+    audio_output_watts: 20,
+  },
+  {
+    id: "thomson-tv-003",
+    model_name: "THOMSON-32HD3000",
+    name: 'Thomson 32" HD Android TV',
+    description: "Kompakt boyutlarda akıllı TV deneyimi.",
+    tv_type: "Android TV",
+    resolution: "HD",
+    image_url: "/placeholder.svg?height=400&width=600",
+    screen_size_inches: 32,
+    smart_features: ["Android TV OS", "Google Play Store", "Voice Search"],
+    ports: ["HDMI x2", "USB x1"],
+    audio_output_watts: 10,
+  },
+  {
+    id: "thomson-tv-004",
+    model_name: "THOMSON-55UHD8000",
+    name: 'Thomson 55" 4K UHD Google TV Pro',
+    description: "Gelişmiş işlemci ve daha zengin renklerle üst düzey 4K deneyimi.",
+    tv_type: "Google TV",
+    resolution: "4K UHD",
+    image_url: "/placeholder.svg?height=400&width=600",
+    screen_size_inches: 55,
+    smart_features: ["Google Assistant", "Dolby Vision", "HDR10+", "Built-in Subwoofer"],
+    ports: ["HDMI x4", "USB x2", "Ethernet", "Optical Audio"],
+    audio_output_watts: 30,
+  },
+  {
+    id: "thomson-tv-005",
+    model_name: "THOMSON-40FHD5000",
+    name: 'Thomson 40" Full HD Android TV',
+    description: "Full HD çözünürlükte akıllı eğlence.",
+    tv_type: "Android TV",
+    resolution: "Full HD",
+    image_url: "/placeholder.svg?height=400&width=600",
+    screen_size_inches: 40,
+    smart_features: ["Android TV OS", "Google Play Store", "Chromecast"],
+    ports: ["HDMI x2", "USB x1"],
+    audio_output_watts: 16,
+  },
+  {
+    id: "thomson-tv-006",
+    model_name: "THOMSON-65UHD9000",
+    name: 'Thomson 65" 4K UHD Google TV Premium',
+    description: "Büyük ekran, üstün ses ve görüntü teknolojileriyle premium deneyim.",
+    tv_type: "Google TV",
+    resolution: "4K UHD",
+    image_url: "/placeholder.svg?height=400&width=600",
+    screen_size_inches: 65,
+    smart_features: ["Google Assistant", "Dolby Atmos", "Local Dimming", "Hands-free Voice Control"],
+    ports: ["HDMI 2.1 x4", "USB x3", "Ethernet", "Optical Audio"],
+    audio_output_watts: 40,
+  },
+  {
+    id: "thomson-tv-007",
+    model_name: "THOMSON-24HD2000",
+    name: 'Thomson 24" HD Basic TV',
+    description: "Küçük alanlar için ideal, temel HD televizyon.",
+    tv_type: "Android TV",
+    resolution: "HD",
+    image_url: "/placeholder.svg?height=400&width=600",
+    screen_size_inches: 24,
+    smart_features: ["Basic Smart Features"],
+    ports: ["HDMI x1", "USB x1"],
+    audio_output_watts: 8,
+  },
+  {
+    id: "thomson-tv-008",
+    model_name: "THOMSON-75UHD9000",
+    name: 'Thomson 75" 4K UHD Google TV Cinema',
+    description: "Ev sineması için devasa ekran ve en yeni teknolojiler.",
+    tv_type: "Google TV",
+    resolution: "4K UHD",
+    image_url: "/placeholder.svg?height=400&width=600",
+    screen_size_inches: 75,
+    smart_features: ["Google Assistant", "Dolby Atmos", "IMAX Enhanced", "Gaming Mode"],
+    ports: ["HDMI 2.1 x4", "USB x3", "Ethernet", "Optical Audio"],
+    audio_output_watts: 50,
+  },
+  {
+    id: "thomson-tv-009",
+    model_name: "THOMSON-43FHD6000",
+    name: 'Thomson 43" Full HD Android TV',
+    description: "Büyük ekran Full HD deneyimi, akıllı özelliklerle.",
+    tv_type: "Android TV",
+    resolution: "Full HD",
+    image_url: "/placeholder.svg?height=400&width=600",
+    screen_size_inches: 43,
+    smart_features: ["Android TV OS", "Google Play Store", "Voice Remote"],
+    ports: ["HDMI x3", "USB x2"],
+    audio_output_watts: 20,
+  },
+  {
+    id: "thomson-tv-010",
+    model_name: "THOMSON-58UHD7000",
+    name: 'Thomson 58" 4K UHD Google TV',
+    description: "Orta boyutta 4K UHD ve Google TV entegrasyonu.",
+    tv_type: "Google TV",
+    resolution: "4K UHD",
+    image_url: "/placeholder.svg?height=400&width=600",
+    screen_size_inches: 58,
+    smart_features: ["Google Assistant", "Chromecast Built-in", "YouTube", "Netflix"],
+    ports: ["HDMI x3", "USB x2", "Ethernet"],
+    audio_output_watts: 20,
+  },
+  {
+    id: "thomson-tv-011",
+    model_name: "THOMSON-32FHD4000",
+    name: 'Thomson 32" Full HD Android TV',
+    description: "Küçük odalar için ideal, Full HD akıllı TV.",
+    tv_type: "Android TV",
+    resolution: "Full HD",
+    image_url: "/placeholder.svg?height=400&width=600",
+    screen_size_inches: 32,
+    smart_features: ["Android TV OS", "Google Play Store"],
+    ports: ["HDMI x2", "USB x1"],
+    audio_output_watts: 12,
+  },
+  {
+    id: "thomson-tv-012",
+    model_name: "THOMSON-85UHD9000",
+    name: 'Thomson 85" 4K UHD Google TV Ultimate',
+    description: "En büyük ekran boyutu ve en gelişmiş özelliklerle nihai izleme deneyimi.",
+    tv_type: "Google TV",
+    resolution: "4K UHD",
+    image_url: "/placeholder.svg?height=400&width=600",
+    screen_size_inches: 85,
+    smart_features: ["Google Assistant", "Dolby Atmos", "Full Array Local Dimming", "AI Upscaling"],
+    ports: ["HDMI 2.1 x4", "USB x4", "Ethernet", "Optical Audio"],
+    audio_output_watts: 60,
+  },
+  {
+    id: "thomson-tv-013",
+    model_name: "THOMSON-50FHD6000",
+    name: 'Thomson 50" Full HD Android TV',
+    description: "Geniş Full HD ekran ve Android TV akıllı özellikleri.",
+    tv_type: "Android TV",
+    resolution: "Full HD",
+    image_url: "/placeholder.svg?height=400&width=600",
+    screen_size_inches: 50,
+    smart_features: ["Android TV OS", "Google Play Store", "Chromecast"],
+    ports: ["HDMI x3", "USB x2"],
+    audio_output_watts: 20,
+  },
+  {
+    id: "thomson-tv-014",
+    model_name: "THOMSON-43UHD6000",
+    name: 'Thomson 43" 4K UHD Android TV',
+    description: "Uygun fiyatlı 4K UHD ve Android TV akıllı özellikleri.",
+    tv_type: "Android TV",
+    resolution: "4K UHD",
+    image_url: "/placeholder.svg?height=400&width=600",
+    screen_size_inches: 43,
+    smart_features: ["Android TV OS", "Google Play Store", "Voice Search"],
+    ports: ["HDMI x3", "USB x2"],
+    audio_output_watts: 20,
+  },
+  {
+    id: "thomson-tv-015",
+    model_name: "THOMSON-65FHD7000",
+    name: 'Thomson 65" Full HD Android TV',
+    description: "Büyük ekran Full HD deneyimi, akıllı özelliklerle.",
+    tv_type: "Android TV",
+    resolution: "Full HD",
+    image_url: "/placeholder.svg?height=400&width=600",
+    screen_size_inches: 65,
+    smart_features: ["Android TV OS", "Google Play Store", "Chromecast"],
+    ports: ["HDMI x3", "USB x2"],
+    audio_output_watts: 24,
+  },
+  {
+    id: "thomson-tv-016",
+    model_name: "THOMSON-55FHD7000",
+    name: 'Thomson 55" Full HD Android TV',
+    description: "Geniş Full HD ekran ve Android TV akıllı özellikleri.",
+    tv_type: "Android TV",
+    resolution: "Full HD",
+    image_url: "/placeholder.svg?height=400&width=600",
+    screen_size_inches: 55,
+    smart_features: ["Android TV OS", "Google Play Store", "Voice Remote"],
+    ports: ["HDMI x3", "USB x2"],
+    audio_output_watts: 20,
+  },
+]
+
+async function seedThomsonProducts() {
+  const supabaseUrl = process.env.SUPABASE_URL
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY
+
+  if (!supabaseUrl || !supabaseServiceKey) {
+    console.error("Hata: SUPABASE_URL ve SUPABASE_SERVICE_KEY ortam değişkenleri ayarlanmamış.")
+    console.error("Lütfen bunları Vercel proje ayarlarınızda ayarlayın.")
+    return
+  }
+
+  const supabase = createClient(supabaseUrl, supabaseServiceKey)
+
+  console.log("Thomson ürünlerini Supabase veritabanına aktarıyor...")
+
+  for (const product of thomsonProducts) {
+    try {
+      console.log(`"${product.model_name}" ürünü için upsert denemesi...`)
+      const { data, error } = await supabase.from("thomson").upsert(
+        {
+          id: product.id,
+          model_name: product.model_name,
+          name: product.name,
+          description: product.description,
+          tv_type: product.tv_type,
+          resolution: product.resolution,
+          image_url: product.image_url,
+          screen_size_inches: product.screen_size_inches,
+          smart_features: product.smart_features,
+          ports: product.ports,
+          audio_output_watts: product.audio_output_watts,
+        },
+        { onConflict: "model_name" }, // model_name çakışırsa güncelle
+      )
+
+      if (error) {
+        console.error(`Thomson ürünü "${product.model_name}" eklenirken/güncellenirken hata oluştu:`, error.message)
+        console.error("Supabase hata detayları:", error) // Supabase'den gelen tam hata objesini logla
+      } else {
+        console.log(`Thomson ürünü "${product.model_name}" başarıyla eklendi/güncellendi.`)
+        console.log("Eklenen/Güncellenen veri:", data)
+      }
+    } catch (e) {
+      console.error(`Thomson ürünü "${product.model_name}" işlenirken beklenmeyen hata:`, e)
+    }
+  }
+
+  console.log("Thomson ürün tohumlama işlemi tamamlandı.")
+}
+
+seedThomsonProducts()
