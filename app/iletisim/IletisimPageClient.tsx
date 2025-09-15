@@ -61,7 +61,6 @@ export default function IletisimPageClient() {
                   <Phone className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
                   <div>
                     <h3 className="font-semibold text-lg">Telefon</h3>
-                    <p className="mt-1 text-gray-600 dark:text-gray-300">+90 (212) 555 44 33</p>
                     <p className="mt-1 text-gray-600 dark:text-gray-300">Müşteri Hizmetleri: 0850 255 24 00</p>
                     <div className="mt-3">
                       <WhatsAppButton
