@@ -50,7 +50,7 @@ export default function ServiceRequestClientPage() {
               </li>
               <li className="flex items-start">
                 <span className="text-blue-500 mr-2">•</span>
-                <span>Acil durumlarda 0850 XXX XX XX numaralı müşteri hizmetleri hattımızı arayabilirsiniz.</span>
+                <span>Acil durumlarda 0850 255 24 00 numaralı müşteri hizmetleri hattımızı arayabilirsiniz.</span>
               </li>
             </ul>
           </div>
