@@ -51,7 +51,7 @@ export default function IletisimPageClient() {
                         href="mailto:agaranti@arena.com.tr"
                         className="hover:underline hover:text-primary transition-colors"
                       >
-                        info@agaranti.com
+                        selfservis@agaranti.com.tr
                       </Link>
                     </p>
                   </div>
