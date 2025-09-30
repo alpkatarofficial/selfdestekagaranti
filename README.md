@@ -11,4 +11,3 @@
 - Test email delivery by submitting a form in the app (check both success and error cases).
 - Review server logs for SendGrid errors and verify fallback to SMTP if configured.
 - Publish a DMARC record aligned to your From domain (e.g., v=DMARC1; p=none; rua=...).
-
