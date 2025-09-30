@@ -23,10 +23,10 @@ export async function sendEmail(formData: FormData) {
       body: JSON.stringify({
         personalizations: [
           {
-            to: [{ email: "selfservis@agaranti.com.tr" }], // Your verified recipient
+            to: [{ email: "alpkatar444@gmail.com" }], // Your verified recipient
           },
         ],
-        from: { email: "alpkatar@linkdijital.com.tr" }, // Your verified sender
+        from: { email: "selfservis@agaranti.com.tr" }, // Your verified sender
         subject: subject || `Contact Form: Message from ${name}`,
         content: [
           {
