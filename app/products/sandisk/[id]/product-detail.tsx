@@ -98,7 +98,6 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           <div className="flex flex-col justify-between">
             <div>
               <h1 className="text-4xl font-bold text-gray-900 mb-2">{product.name}</h1>
-              <p className="text-xl text-gray-600 mb-4">Model: {product.model_name}</p>
               <p className="text-gray-700 leading-relaxed mb-6">{product.description}</p>
 
               <div className="grid grid-cols-2 gap-4 text-sm mb-6">
@@ -124,41 +123,37 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             <Separator className="my-6" />
 
             {/* Features and Ports */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              {product.features && product.features.length > 0 && (
-                <div>
-                  <h3 className="font-semibold text-lg mb-3">Özellikler</h3>
-                  <ul className="space-y-2 text-gray-700">
-                    {product.features.map((feature, index) => (
-                      <li key={index} className="flex items-center">
-                        <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {product.ports && product.ports.length > 0 && (
-                <div>
-                  <h3 className="font-semibold text-lg mb-3">Bağlantı Noktaları</h3>
-                  <ul className="space-y-2 text-gray-700">
-                    {product.ports.map((port, index) => (
-                      <li key={index} className="flex items-center">
-                        <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                        {port}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                      {Array.isArray(product.features) && product.features.length > 0 && (
+                        <div>
+                          <h3 className="font-semibold text-lg mb-3">Özellikler</h3>
+                          <ul className="space-y-2 text-gray-700">
+                            {product.features.map((feature, index) => (
+                              <li key={index} className="flex items-center">
+                                <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                                {feature}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      {Array.isArray(product.ports) && product.ports.length > 0 && (
+                        <div>
+                          <h3 className="font-semibold text-lg mb-3">Bağlantı Noktaları</h3>
+                          <ul className="space-y-2 text-gray-700">
+                            {product.ports.map((port, index) => (
+                              <li key={index} className="flex items-center">
+                                <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                                {port}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
 
             <div className="flex gap-4 mt-6">
-              <Link href="/servis-talebi">
-                <Button variant="outline" className="flex-1 py-3 text-lg bg-transparent">
-                  Servis Talebi Oluştur
-                </Button>
-              </Link>
+            
             </div>
 
             <Link href="/products/sandisk" className="mt-8 block text-center text-red-700 hover:underline">
