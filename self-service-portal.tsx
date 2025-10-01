@@ -1344,6 +1344,21 @@ const sparePartsDatabase: SparePart[] = [
 // Update the faqCategories with more realistic data based on the example site
 const faqCategories = [
   {
+    id: "sandisk",
+    title: "Sandisk Yardım Kategorileri",
+    icon: <HardDrive className="h-6 w-6" />,
+    image: "/images/sandisk.jpg",
+    faqs: [
+      {
+        id: "sandisk-1",
+        question: "Sandisk ürünümle ilgili teknik destek nasıl alabilirim?",
+        answer: "Sandisk ürünleri için destek ve yardım almak için bu kategoriyi kullanabilirsiniz.",
+        category: "sandisk",
+      },
+      // Diğer Sandisk soruları buraya eklenebilir
+    ],
+  },
+  {
     id: "dreame",
     title: "Dreame Ürünleri Desteği",
     icon: <Home className="h-6 w-6" />, // Geçici bir ikon, daha uygun bir ikon bulunabilir
