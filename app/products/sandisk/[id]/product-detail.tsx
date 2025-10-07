@@ -116,27 +116,65 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               </div>
 
               {product.price && (
-                <div className="text-4xl font-bold text-red-600 mb-6">₺{product.price.toLocaleString("tr-TR")}</div>
-              )}
+        <div className="text-4xl font-bold text-red-600 mb-6">₺{product.price.toLocaleString("tr-TR")}</div>
+      )}
+
+            {/* Dynamic Specs Section: Show all columns from Supabase */}
+            <div className="mb-6">
+              <h3 className="font-semibold text-lg mb-3">Tüm Özellikler</h3>
+              {/* Features at the top */}
+              <div className="rounded-lg p-4 shadow-sm flex flex-col mb-4">
+                <div className="text-base font-bold text-gray-800 mb-1">Özellikler</div>
+                <ul className="list-disc pl-4 text-gray-700 text-sm">
+                  {Array.isArray(product.features) && product.features.length > 0 ? (
+                    product.features.map((feature, idx) => (
+                      <li key={idx}>{feature}</li>
+                    ))
+                  ) : (
+                    <li className="text-gray-400">Özellik bilgisi bulunamadı.</li>
+                  )}
+                </ul>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {Object.entries(product)
+                  .filter(([key, value]) =>
+                    value !== undefined &&
+                    value !== null &&
+                    key !== "id" &&
+                    key !== "image_url" &&
+                    key !== "created_at" &&
+                    key !== "updated_at" &&
+                    key !== "features" &&
+                    key !== "ports" &&
+                    key !== "name" &&
+                    key !== "description" &&
+                    key !== "category"
+                  )
+                  .map(([key, value]) => {
+                    if (key === "user_manual" && typeof value === "string") {
+                      return (
+                        <div key={key} className="rounded-lg p-4 shadow-sm flex flex-col mb-2">
+                          <a href={value} target="_blank" rel="noopener noreferrer">
+                            <button className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition">Kılavuzu Görüntüle</button>
+                          </a>
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div key={key} className="rounded-lg p-4 shadow-sm flex flex-col mb-2">
+                          <div className="text-gray-700 text-sm leading-relaxed break-words">{Array.isArray(value) ? value.join(", ") : value.toString()}</div>
+                        </div>
+                      );
+                    }
+                  })}
+              </div>
+            </div>
             </div>
 
             <Separator className="my-6" />
 
             {/* Features and Ports */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                      {Array.isArray(product.features) && product.features.length > 0 && (
-                        <div>
-                          <h3 className="font-semibold text-lg mb-3">Özellikler</h3>
-                          <ul className="space-y-2 text-gray-700">
-                            {product.features.map((feature, index) => (
-                              <li key={index} className="flex items-center">
-                                <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                                {feature}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
                       {Array.isArray(product.ports) && product.ports.length > 0 && (
                         <div>
                           <h3 className="font-semibold text-lg mb-3">Bağlantı Noktaları</h3>
