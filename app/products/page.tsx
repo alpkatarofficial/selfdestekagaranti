@@ -177,7 +177,7 @@ export default function ProductsPage() {
               </div>
               <Link href="/products/thomson">
                 <Button className="bg-white hover:bg-white/90 text-slate-900 font-semibold px-8 py-3">
-                  Modelleri İncele
+                  Ürünleri İncele
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
