@@ -36,9 +36,6 @@ export default function Header() {
         </div>
         {/* Navigation */}
         <nav className="flex items-center space-x-8">
-          <Link href="/manuals" className="text-white/90 hover:text-white font-medium transition-colors">
-            Kullanım Kılavuzları
-          </Link>
           <Link href="/servis-talebi" className="text-white/90 hover:text-white font-medium transition-colors">
             Servis Talebi
           </Link>
