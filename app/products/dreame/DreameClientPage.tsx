@@ -184,9 +184,6 @@ export default function DreameClientPage({ products }: DreameClientPageProps) {
                       )}
                     </div>
                   )}
-                  <div className="text-blue-600 font-medium text-sm group-hover:text-blue-700">
-                    Detayları Görüntüle →
-                  </div>
                 </div>
               </div>
             </Link>

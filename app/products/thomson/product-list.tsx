@@ -252,14 +252,6 @@ export default function ProductList({ products = [] }: ProductListProps) {
                   {product.description && (
                     <p className="text-sm text-gray-600 line-clamp-2 mb-4">{product.description}</p>
                   )}
-
-                  <Button
-                    variant="ghost"
-                    className="w-full text-blue-600 hover:bg-blue-100 hover:text-blue-700 transition-all duration-300"
-                  >
-                    Detayları İncele
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </Button>
                 </CardContent>
               </Card>
             </Link>
