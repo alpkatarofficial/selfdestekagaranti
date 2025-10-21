@@ -1341,8 +1341,24 @@ const sparePartsDatabase: SparePart[] = [
   },
 ]
 
+// FAQ typings — allow mixed id types and optional category to match data
+type FAQItem = {
+  id: string | number
+  question: string
+  answer: string
+  category?: string
+}
+
+type FaqCategory = {
+  id: string
+  title: string
+  icon?: React.ReactNode
+  image?: string
+  faqs: FAQItem[]
+}
+
 // Update the faqCategories with more realistic data based on the example site
-const faqCategories = [
+const faqCategories: FaqCategory[] = [
   {
     id: "sandisk",
     title: "Sandisk Yardım Kategorileri",
@@ -2921,7 +2937,7 @@ export default function SelfServicePortal() {
                 </div>
 
                 {/* Popular searches */}
-                <div className="mt-6 flex flex-wrap justify-center gap-2 hidden">
+                <div className="mt-6 flex flex-wrap justify-center gap-2">
                   {popularSearches.map((search, index) => (
                     <Button
                       key={index}

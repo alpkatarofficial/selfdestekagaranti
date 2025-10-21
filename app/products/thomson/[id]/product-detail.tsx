@@ -264,13 +264,16 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               )}
             </div>
 
-            <div className="flex gap-4 mt-6">
-              <Link href="/servis-talebi">
-                <Button variant="outline" className="flex-1 py-3 text-lg bg-transparent">
-                  Servis Talebi Oluştur
-                </Button>
-              </Link>
-            </div>
+              <div className="flex gap-4 mt-6">
+                <button
+                  className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded transition flex-1 text-lg"
+                  onClick={() =>
+                    userManual ? handleDownload(userManual, "user") : window.open("/manuals", "_blank")
+                  }
+                >
+                  Kılavuzu Görüntüle
+                </button>
+              </div>
 
             <Link href="/products/thomson" className="mt-8 block text-center text-primary hover:underline">
               <ArrowLeft className="inline-block mr-2 h-4 w-4" />
