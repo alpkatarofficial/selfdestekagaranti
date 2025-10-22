@@ -41,6 +41,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     return []
   }
 
+  // Normalize various fields into a deduplicated main features list
   const mainFeatures = Array.from(
     new Set([
       ...splitToItems(product.features),
@@ -49,6 +50,19 @@ export default function ProductDetail({ product }: ProductDetailProps) {
       ...splitToItems(product.components),
     ])
   )
+
+  // Normalize ports to support both string (comma-separated) and array formats
+  const portsList: string[] = Array.isArray(product.ports)
+    ? product.ports.map((p) => String(p).trim()).filter(Boolean)
+    : splitToItems(product.ports)
+
+  // Normalize user_manual: support string or array, prefer first valid URL
+  let manualUrl: string | null = null
+  if (Array.isArray(product.user_manual)) {
+    manualUrl = (product.user_manual as any[]).find((u) => typeof u === "string" && u.trim()) || null
+  } else if (typeof product.user_manual === "string") {
+    manualUrl = product.user_manual.trim() || null
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -123,8 +137,8 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 )}
               </div>
 
-              {product.price && (
-                <div className="text-4xl font-bold text-red-600 mb-6">₺{product.price.toLocaleString("tr-TR")}</div>
+              {product.price !== undefined && product.price !== null && !Number.isNaN(Number(product.price)) && (
+                <div className="text-4xl font-bold text-red-600 mb-6">₺{Number(product.price).toLocaleString("tr-TR")}</div>
               )}
 
               {/* Dynamic Specs Section: Show all columns from Supabase */}
@@ -133,7 +147,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 <h3 className="font-semibold text-lg mb-3">Ana Özellikler</h3>
                 <ul className="list-disc pl-4 text-gray-700 text-sm mb-6">
                   {mainFeatures.length > 0 ? (
-                    mainFeatures.map((feature, idx) => <li key={idx}>{feature}</li>)
+                    mainFeatures.map((feature) => (
+                      <li key={feature}>{feature}</li>
+                    ))
                   ) : (
                     <li className="text-gray-400">Özellik bilgisi bulunamadı.</li>
                   )}
@@ -163,9 +179,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                         </li>
                       )
                     })}
-                  {typeof product.user_manual === "string" && (product.user_manual as string).trim() !== "" && (
+                  {manualUrl && (
                     <li className="flex items-center mt-4">
-                      <a href={product.user_manual as string} target="_blank" rel="noopener noreferrer">
+                      <a href={manualUrl} target="_blank" rel="noopener noreferrer">
                         <button className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition">Kılavuzu Görüntüle</button>
                       </a>
                     </li>
@@ -177,12 +193,12 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             <Separator className="my-6" />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              {Array.isArray(product.ports) && product.ports.length > 0 && (
+              {portsList && portsList.length > 0 && (
                 <div>
                   <h3 className="font-semibold text-lg mb-3">Bağlantı Noktaları</h3>
                   <ul className="space-y-2 text-gray-700">
-                    {product.ports.map((port, index) => (
-                      <li key={index} className="flex items-center">
+                    {portsList.map((port, index) => (
+                      <li key={port + index} className="flex items-center">
                         <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
                         {port}
                       </li>
