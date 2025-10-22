@@ -189,7 +189,7 @@ export default function ProductsPage() {
         <div className="relative bg-gradient-to-br from-red-900 via-red-800 to-red-900 rounded-2xl overflow-hidden mb-12 shadow-2xl min-h-[18rem] md:min-h-[24rem] flex items-stretch">
           <div className="absolute inset-0 z-0">
             <video
-              src="https://do5myoqjz9grji02.public.blob.vercel-storage.com/blade-sn670-background.mp4"
+              src="https://shop.sandisk.com/content/dam/sandisk/en-us/assets/ref/products/usb/usbflashdrives-desktop.jpg.wdthumb.1280.1280.webp"
               autoPlay
               loop
               muted
@@ -388,7 +388,7 @@ export default function ProductsPage() {
           <div className="relative z-10 flex flex-1 items-center justify-center md:justify-start p-8">
             <div className="text-center md:text-left">
               <div className="inline-flex items-center justify-center bg-teal-600 text-white px-4 py-1 rounded-full text-sm mb-4">
-                Sağlık & Bakım
+
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Philips</h2>
               <p className="text-white/90 mb-6 max-w-md">
