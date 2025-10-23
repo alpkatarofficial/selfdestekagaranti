@@ -33,19 +33,16 @@ export default async function OptomaPage() {
   return (
     <div className="min-h-screen bg-[#f8fafc]">
       <main className="container mx-auto px-4 py-12">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-red-700">Optoma ürünleri</h1>
-          <p className="mt-4 text-lg text-gray-600">Optoma ürünleri.</p>
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">Optoma ürünleri</h1>
+          <p className="text-gray-600">Optoma ürünleri.</p>
+          {error ? (
+            <div role="alert" aria-live="polite" className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-red-600">Ürünler Yüklenemedi: {String(error)}</p>
+            </div>
+          ) : null}
         </div>
-        {error ? (
-          <div className="text-center text-red-500 bg-red-50 p-6 rounded-lg">
-            <h2 className="font-semibold">Ürünler Yüklenemedi</h2>
-            <p>Bir hata oluştu. Lütfen daha sonra tekrar deneyin.</p>
-            <p className="text-xs mt-2">Hata Detayı: {error}</p>
-          </div>
-        ) : (
-          <OptomaClientPage products={products as Product[]} />
-        )}
+        <OptomaClientPage products={products as Product[]} />
       </main>
     </div>
   );
