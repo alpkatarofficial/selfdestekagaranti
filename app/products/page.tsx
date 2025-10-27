@@ -188,12 +188,9 @@ export default function ProductsPage() {
         {/* Sandisk Vitrini */}
         <div className="relative bg-gradient-to-br from-red-900 via-red-800 to-red-900 rounded-2xl overflow-hidden mb-12 shadow-2xl min-h-[18rem] md:min-h-[24rem] flex items-stretch">
           <div className="absolute inset-0 z-0">
-            <video
-              src="https://do5myoqjz9grji02.public.blob.vercel-storage.com/usbflashdrives-desktop.jpg.wdthumb.1280.1280.webp"
-              autoPlay
-              loop
-              muted
-              playsInline
+            <img
+              src="https://do5myoqjz9grji02.public.blob.vercel-storage.com/usbflashdrives-desktop.jpg.wdthumb.1280.1280.png"
+              alt="Snadiski"
               className="w-full h-full object-cover object-center"
               style={{ filter: "brightness(0.7)" }}
             />
