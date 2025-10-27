@@ -189,7 +189,7 @@ export default function ProductsPage() {
         <div className="relative bg-gradient-to-br from-red-900 via-red-800 to-red-900 rounded-2xl overflow-hidden mb-12 shadow-2xl min-h-[18rem] md:min-h-[24rem] flex items-stretch">
           <div className="absolute inset-0 z-0">
             <video
-              src="https://shop.sandisk.com/content/dam/sandisk/en-us/assets/ref/products/usb/usbflashdrives-desktop.jpg.wdthumb.1280.1280.webp"
+              src="https://do5myoqjz9grji02.public.blob.vercel-storage.com/usbflashdrives-desktop.jpg.wdthumb.1280.1280.webp"
               autoPlay
               loop
               muted
