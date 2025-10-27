@@ -87,11 +87,6 @@ export default function DreameClientPage({ products }: DreameClientPageProps) {
                     className="object-contain group-hover:scale-105 transition-transform duration-300"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
-                  <div className="absolute top-2 left-2">
-                    <Badge variant="secondary" className="bg-white/90 text-gray-700">
-                      {categoryDisplayNames[product.category] || product.category}
-                    </Badge>
-                  </div>
                 </div>
                 <div className="p-6">
                   <h3 className="font-semibold text-lg mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
