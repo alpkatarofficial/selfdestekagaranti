@@ -266,7 +266,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
               <div className="flex gap-4 mt-6">
                 <button
-                  className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded transition flex-1 text-lg"
+                  className="bg-[#86cbe8] hover:bg-[#5be4cb] text-white font-semibold py-3 px-4 rounded transition flex-1 text-lg"
                   onClick={() =>
                     userManual ? handleDownload(userManual, "user") : window.open("/manuals", "_blank")
                   }

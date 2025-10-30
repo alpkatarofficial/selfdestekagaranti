@@ -220,7 +220,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   rel="noopener noreferrer"
                   className="inline-block"
                 >
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                  <Button className="w-full bg-[#86cbe8] hover:bg-[#5be4cb]">
                     Kullanım Kılavuzunu Görüntüle
                   </Button>
                 </a>
