@@ -4,17 +4,21 @@ import { supabase } from "@/lib/supabase"
 
 interface PhilipsProduct {
   id: string
-  model_name: string
   name: string
-  description: string
-  storage_type?: string
-  capacity?: string
+  category?: string
+  description?: string
   image_url?: string
   price?: number
-  features?: string[]
-  ports?: string[]
+  features?: string[] | string
+  specs?: string
+  content?: string
+  ingredients?: string
+  components?: string
+  ports?: string[] | string
+  user_manual?: string | string[]
   created_at?: string
   updated_at?: string
+  [key: string]: any
 }
 
 export default async function ProductDetailPage({ params }: { params: { id: string } }) {
@@ -58,6 +62,12 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
 
     if (data && data.length > 0) {
       product = data[0] as PhilipsProduct
+      console.log("Philips Detail Page: Product found:", { 
+        id: product.id, 
+        name: product.name, 
+        features: product.features, 
+        specs: product.specs 
+      })
     } else {
       error = `ID'si “${productId}” olan ürün bulunamadı.`
     }

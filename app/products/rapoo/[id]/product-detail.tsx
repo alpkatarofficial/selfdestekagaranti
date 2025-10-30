@@ -1,9 +1,12 @@
 "use client"
 
 import { useState, useEffect } from "react"
+
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Separator } from "@/components/ui/separator"
-import { ArrowLeft, CheckCircle, HardDrive, Zap, Database } from "lucide-react"
+import { ArrowLeft, CheckCircle, HardDrive, Zap, Database, Info } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -34,6 +37,8 @@ interface ProductDetailProps {
 export default function ProductDetail({ product }: ProductDetailProps) {
   const [scrolled, setScrolled] = useState(false)
 
+
+  // Helper to split features/specs/ports from string/array/JSON
   const splitToItems = (val: any): string[] => {
     if (!val) return []
     if (Array.isArray(val)) return val.map((v) => String(v).trim()).filter(Boolean)
@@ -41,6 +46,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     return []
   }
 
+  // Normalize features
   const mainFeatures = Array.from(
     new Set([
       ...splitToItems(product.features),
@@ -49,6 +55,29 @@ export default function ProductDetail({ product }: ProductDetailProps) {
       ...splitToItems(product.components),
     ])
   )
+
+  // Normalize specs
+  const getSpecs = (): string[] => {
+    if (!product.specs) return []
+    if (typeof product.specs === 'string') {
+      return product.specs.split(/[,;\n]+/).map((s: string) => s.trim()).filter(Boolean)
+    }
+    return []
+  }
+  const specs = getSpecs()
+
+  // Normalize ports
+  const portsList: string[] = Array.isArray(product.ports)
+    ? product.ports.map((p) => String(p).trim()).filter(Boolean)
+    : splitToItems(product.ports)
+
+  // Normalize user manual
+  let manualUrl: string | null = null
+  if (Array.isArray(product.user_manual)) {
+    manualUrl = (product.user_manual as any[]).find((u) => typeof u === "string" && u.trim()) || null
+  } else if (typeof product.user_manual === "string") {
+    manualUrl = product.user_manual.trim() || null
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -78,126 +107,128 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   return (
     <div className="min-h-screen bg-[#f8fafc]">
       <div className="container mx-auto px-4 py-16 pt-24">
-        {/* Breadcrumb */}
-        <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-8">
-          <Link href="/" className="hover:text-primary">Ana Sayfa</Link>
-          <span>/</span>
-          <Link href="/products" className="hover:text-primary">Ürünler</Link>
-          <span>/</span>
-          <Link href="/products/rapoo" className="hover:text-primary">Rapoo</Link>
-          <span>/</span>
-          <span className="text-primary font-medium">{product.name}</span>
-        </nav>
+        <Link href={`/products/rapoo`} className="inline-flex items-center text-red-600 hover:text-red-800 mb-8">
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Tüm Rapoo Ürünleri
+        </Link>
 
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-12 bg-white p-6 rounded-xl shadow-lg">
-          {/* Product Image */}
-          <div className="relative h-80 md:h-[450px] bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
-            {product.image_url ? (
-              <Image src={product.image_url || "/placeholder.svg"} alt={product.name} fill className="object-contain" priority />
-            ) : (
-              <div className="flex flex-col items-center justify-center p-4 text-center text-gray-500">
-                <Database className="h-24 w-24 mb-4" />
-                <p>Görsel mevcut değil</p>
-              </div>
-            )}
+        <div className="grid md:grid-cols-2 gap-12 items-start">
+          <div className="relative w-full h-[400px] md:h-[550px] rounded-xl overflow-hidden shadow-lg bg-gray-100">
+            <Image
+              src={
+                product.image_url && product.image_url.startsWith("http")
+                  ? product.image_url
+                  : "/placeholder.svg?height=550&width=550&text=Görsel+Yok"
+              }
+              alt={product.name}
+              fill
+              className="object-contain p-8"
+              priority
+            />
           </div>
 
-          {/* Product Details */}
-          <div className="flex flex-col justify-between">
+          <div className="space-y-8">
             <div>
-              <h1 className="text-4xl font-bold text-gray-900 mb-2">{product.name}</h1>
-              <p className="text-gray-700 leading-relaxed mb-6">{product.description}</p>
-
-              <div className="grid grid-cols-2 gap-4 text-sm mb-6">
-                {product.storage_type && (
-                  <div className="flex items-center">
-                    <HardDrive className="h-5 w-5 text-primary mr-2" />
-                    <span>Depolama Tipi: {product.storage_type}</span>
-                  </div>
-                )}
-                {product.capacity && (
-                  <div className="flex items-center">
-                    <Zap className="h-5 w-5 text-primary mr-2" />
-                    <span>Kapasite: {product.capacity}</span>
-                  </div>
-                )}
-              </div>
-
-              {product.price && (
-                <div className="text-4xl font-bold text-red-600 mb-6">₺{product.price.toLocaleString("tr-TR")}</div>
+              <h1 className="text-4xl font-bold text-gray-900 mb-4">{product.name}</h1>
+              {product.description && (
+                <p className="text-lg text-gray-700 leading-relaxed">{product.description}</p>
               )}
-
-              {/* Dynamic Specs Section: Show all columns from Supabase */}
-              <div className="mb-6">
-                {/* Main Features (Ana Özellikler) */}
-                <h3 className="font-semibold text-lg mb-3">Ana Özellikler</h3>
-                <ul className="list-disc pl-4 text-gray-700 text-sm mb-6">
-                  {mainFeatures.length > 0 ? (
-                    mainFeatures.map((feature, idx) => <li key={idx}>{feature}</li>)
-                  ) : (
-                    <li className="text-gray-400">Özellik bilgisi bulunamadı.</li>
-                  )}
-                </ul>
-
-                {/* Technical Features (Teknik Özellikler) */}
-                <h3 className="font-semibold text-lg mb-3">Teknik Özellikler</h3>
-                <ul className="list-disc pl-4 text-gray-700 text-sm">
-                  {Object.entries(product)
-                    .filter(([key, value]) =>
-                      value !== undefined &&
-                      value !== null &&
-                      !["id", "image_url", "created_at", "updated_at", "features", "ports", "name", "description", "category", "user_manual"].includes(key)
-                    )
-                    .map(([key, value]) => {
-                      if (key === "specs" && typeof value === "string") {
-                        return value.split(",").map((spec, idx) => (
-                          <li key={"spec-" + idx} className="flex items-center">
-                            <span>{spec.trim()}</span>
-                          </li>
-                        ))
-                      }
-                      return (
-                        <li key={key} className="flex items-center">
-                          <span className="font-bold mr-2">{key.replace(/_/g, " ")}: </span>
-                          <span>{Array.isArray(value) ? (value as any).join(", ") : value?.toString()}</span>
-                        </li>
-                      )
-                    })}
-                  {typeof product.user_manual === "string" && (product.user_manual as string).trim() !== "" && (
-                    <li className="flex items-center mt-4">
-                      <a href={product.user_manual as string} target="_blank" rel="noopener noreferrer">
-                        <button className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition">Kılavuzu Görüntüle</button>
-                      </a>
-                    </li>
-                  )}
-                </ul>
-              </div>
             </div>
 
-            <Separator className="my-6" />
+            {/* Price */}
+            {product.price !== undefined && product.price !== null && !Number.isNaN(Number(product.price)) && (
+              <div className="bg-red-50 p-6 rounded-lg border border-red-200">
+                <div className="text-3xl font-bold text-red-600">
+                  ₺{Number(product.price).toLocaleString("tr-TR")}
+                </div>
+              </div>
+            )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              {Array.isArray(product.ports) && product.ports.length > 0 && (
-                <div>
-                  <h3 className="font-semibold text-lg mb-3">Bağlantı Noktaları</h3>
-                  <ul className="space-y-2 text-gray-700">
-                    {product.ports.map((port, index) => (
-                      <li key={index} className="flex items-center">
+            {/* Features - Accordion */}
+            {mainFeatures.length > 0 && (
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="features" className="border rounded-lg px-4 bg-white shadow-sm">
+                  <AccordionTrigger className="hover:no-underline">
+                    <div className="flex items-center text-xl font-semibold text-gray-800">
+                      <CheckCircle className="w-5 h-5 mr-2 text-green-500" />
+                      Öne Çıkan Özellikler
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-600 pt-2">
+                      {mainFeatures.map((feature: string, index: number) => (
+                        <li key={index} className="flex items-center">
+                          <span className="w-2 h-2 rounded-full bg-red-500 mr-2 flex-shrink-0"></span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            )}
+
+            {/* Technical Specs - Accordion */}
+            {specs && specs.length > 0 && (
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="specs" className="border rounded-lg px-4 bg-white shadow-sm">
+                  <AccordionTrigger className="hover:no-underline">
+                    <div className="flex items-center text-xl font-semibold text-gray-800">
+                      <Info className="w-5 h-5 mr-2 text-red-500" />
+                      Teknik Özellikler
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-600 pt-2">
+                      {specs.map((spec: string, index: number) => (
+                        <li key={index} className="flex items-center">
+                          <span className="w-2 h-2 rounded-full bg-red-500 mr-2 flex-shrink-0"></span>
+                          {spec}
+                        </li>
+                      ))}
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            )}
+
+            {/* Ports */}
+            {portsList && portsList.length > 0 && (
+              <Card className="shadow-sm">
+                <CardHeader>
+                  <CardTitle className="flex items-center text-xl font-semibold text-gray-800">
+                    <Info className="w-5 h-5 mr-2 text-red-500" />
+                    Bağlantı Noktaları
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2 text-gray-600">
+                    {portsList.map((port: string, index: number) => (
+                      <li key={port + index} className="flex items-center">
                         <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
                         {port}
                       </li>
                     ))}
                   </ul>
-                </div>
-              )}
-            </div>
+                </CardContent>
+              </Card>
+            )}
 
-            <div className="flex gap-4 mt-6"></div>
-
-            <Link href="/products/rapoo" className="mt-8 block text-center text-red-700 hover:underline">
-              <ArrowLeft className="inline-block mr-2 h-4 w-4" />
-              Tüm Rapoo Ürünlerine Geri Dön
-            </Link>
+            {/* User Manual */}
+            {manualUrl && (
+              <div>
+                <a
+                  href={manualUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block"
+                >
+                  <Button className="w-full bg-red-600 hover:bg-red-700">
+                    Kullanım Kılavuzunu Görüntüle
+                  </Button>
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </div>
