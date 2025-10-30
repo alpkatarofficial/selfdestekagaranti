@@ -4,6 +4,7 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { ArrowLeft, CheckCircle, HardDrive, Zap, Database } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -134,50 +135,64 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
               {/* Dynamic Specs Section: Show all columns from Supabase */}
               <div className="mb-6">
-                {/* Main Features (Ana Özellikler) */}
-                <h3 className="font-semibold text-lg mb-3">Ana Özellikler</h3>
-                <ul className="list-disc pl-4 text-gray-700 text-sm mb-6">
-                  {mainFeatures.length > 0 ? (
-                    mainFeatures.map((feature, idx) => <li key={idx}>{feature}</li>)
-                  ) : (
-                    <li className="text-gray-400">Özellik bilgisi bulunamadı.</li>
-                  )}
-                </ul>
+                <Accordion type="single" collapsible className="w-full">
+                  {/* Main Features (Öne Çıkan Özellikler) */}
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger className="font-semibold text-lg">
+                      Öne Çıkan Özellikler
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <ul className="list-disc pl-4 text-gray-700 text-sm">
+                        {mainFeatures.length > 0 ? (
+                          mainFeatures.map((feature, idx) => <li key={idx}>{feature}</li>)
+                        ) : (
+                          <li className="text-gray-400">Özellik bilgisi bulunamadı.</li>
+                        )}
+                      </ul>
+                    </AccordionContent>
+                  </AccordionItem>
 
-                {/* Technical Features (Teknik Özellikler) */}
-                <h3 className="font-semibold text-lg mb-3">Teknik Özellikler</h3>
-                <ul className="list-disc pl-4 text-gray-700 text-sm">
-                  {Object.entries(product)
-                    .filter(([key, value]) =>
-                      value !== undefined &&
-                      value !== null &&
-                      !["id", "image_url", "created_at", "updated_at", "features", "ports", "name", "description", "category", "user_manual"].includes(key)
-                    )
-                    .map(([key, value]) => {
-                      if (key === "specs" && typeof value === "string") {
-                        // Split by comma and show each spec as a separate item
-                        return value.split(",").map((spec, idx) => (
-                          <li key={"spec-" + idx} className="flex items-center">
-                            <span>{spec.trim()}</span>
+                  {/* Technical Features (Teknik Özellikler) */}
+                  <AccordionItem value="item-2">
+                    <AccordionTrigger className="font-semibold text-lg">
+                      Teknik Özellikler
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <ul className="list-disc pl-4 text-gray-700 text-sm">
+                        {Object.entries(product)
+                          .filter(([key, value]) =>
+                            value !== undefined &&
+                            value !== null &&
+                            !["id", "image_url", "created_at", "updated_at", "features", "ports", "name", "description", "category", "user_manual"].includes(key)
+                          )
+                          .map(([key, value]) => {
+                            if (key === "specs" && typeof value === "string") {
+                              // Split by comma and show each spec as a separate item
+                              return value.split(",").map((spec, idx) => (
+                                <li key={"spec-" + idx} className="flex items-center">
+                                  <span>{spec.trim()}</span>
+                                </li>
+                              ))
+                            }
+                            return (
+                              <li key={key} className="flex items-center">
+                                <span className="font-bold mr-2">{key.replace(/_/g, " ")}: </span>
+                                <span>{Array.isArray(value) ? (value as any).join(", ") : value?.toString()}</span>
+                              </li>
+                            )
+                          })}
+                        {/* User manual button, if present */}
+                        {typeof product.user_manual === "string" && (product.user_manual as string).trim() !== "" && (
+                          <li className="flex items-center mt-4">
+                            <a href={product.user_manual as string} target="_blank" rel="noopener noreferrer">
+                              <button className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition">Kılavuzu Görüntüle</button>
+                            </a>
                           </li>
-                        ))
-                      }
-                      return (
-                        <li key={key} className="flex items-center">
-                          <span className="font-bold mr-2">{key.replace(/_/g, " ")}: </span>
-                          <span>{Array.isArray(value) ? (value as any).join(", ") : value?.toString()}</span>
-                        </li>
-                      )
-                    })}
-                  {/* User manual button, if present */}
-                  {typeof product.user_manual === "string" && (product.user_manual as string).trim() !== "" && (
-                    <li className="flex items-center mt-4">
-                      <a href={product.user_manual as string} target="_blank" rel="noopener noreferrer">
-                        <button className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition">Kılavuzu Görüntüle</button>
-                      </a>
-                    </li>
-                  )}
-                </ul>
+                        )}
+                      </ul>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
               </div>
             </div>
 
