@@ -222,7 +222,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                   rel="noopener noreferrer"
                   className="inline-block"
                 >
-                  <Button className="w-full bg-red-600 hover:bg-red-700">
+                  <Button className="w-full bg-[#86cbe8] hover:bg-[#5be4cb]">
                     Kullanım Kılavuzunu Görüntüle
                   </Button>
                 </a>
