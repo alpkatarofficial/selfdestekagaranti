@@ -185,7 +185,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                         {typeof product.user_manual === "string" && (product.user_manual as string).trim() !== "" && (
                           <li className="flex items-center mt-4">
                             <a href={product.user_manual as string} target="_blank" rel="noopener noreferrer">
-                              <button className="bg-[#86cbe8] hover:bg-[#5be4cb] text-white font-semibold py-2 px-4 rounded transition">Kılavuzu Görüntüle</button>
+                              <button className="bg-[#86cbe8] hover:bg-[#5be4cb]s text-white font-semibold py-2 px-4 rounded transition">Kılavuzu Görüntüle</button>
                             </a>
                           </li>
                         )}

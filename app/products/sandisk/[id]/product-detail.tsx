@@ -217,9 +217,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   href={product.user_manual}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block"
+                  className="inline-block w-full"
                 >
-                  <Button className="w-full bg-[#86cbe8] hover:bg-[#5be4cb]">
+                  <Button className="w-full max-w-md bg-[#86cbe8] hover:bg-[#5be4cb] text-base py-6">
                     Kullanım Kılavuzunu Görüntüle
                   </Button>
                 </a>
