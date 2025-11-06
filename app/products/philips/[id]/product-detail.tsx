@@ -110,16 +110,16 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         </Link>
 
         <div className="grid md:grid-cols-2 gap-12 items-start">
-          <div className="relative w-full h-[400px] md:h-[550px] rounded-xl overflow-hidden shadow-lg bg-gray-100">
+          <div className="relative w-full aspect-[1500/1005] rounded-xl overflow-hidden shadow-lg bg-gray-100">
             <Image
               src={
                 product.image_url && product.image_url.startsWith("http")
                   ? product.image_url
-                  : "/placeholder.svg?height=550&width=550&text=Görsel+Yok"
+                  : "/placeholder.svg?height=1005&width=1500&text=Görsel+Yok"
               }
               alt={product.name}
               fill
-              className="object-contain p-8"
+              className="object-cover"
               priority
             />
           </div>
