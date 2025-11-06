@@ -163,16 +163,16 @@ export default function SandiskClientPage({ products }: SandiskClientPageProps) 
           {filteredProducts.map((product) => (
             <Link key={product.id} href={`/products/sandisk/${product.id}`} className="group">
               <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                <div className="relative aspect-square bg-gray-100 p-4">
+                <div className="relative aspect-[1500/1005] bg-gray-100 p-4">
                   <Image
                     src={
                       product.image_url && product.image_url.startsWith("http")
                         ? product.image_url
-                        : "/placeholder.svg?height=300&width=300&text=Görsel+Yok"
+                        : "/placeholder.svg?height=1005&width=1500&text=Görsel+Yok"
                     }
                     alt={product.name}
                     fill
-                    className="object-contain group-hover:scale-105 transition-transform duration-300"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                 </div>
