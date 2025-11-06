@@ -175,17 +175,16 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                     </div>
                   </AccordionTrigger>
                   <AccordionContent>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-600 pt-2">
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-600 pt-2">
                       {Object.entries(specs).map(([key, value]) => (
-                        <div
-                          key={key}
-                          className="flex justify-between items-center border-b border-gray-200 py-2 last:border-b-0"
-                        >
-                          <span className="font-medium">{key}:</span>
-                          <span>{String(value)}</span>
-                        </div>
+                        <li key={key} className="flex items-start">
+                          <span className="w-2 h-2 rounded-full bg-blue-500 mr-2 flex-shrink-0 mt-2"></span>
+                          <span>
+                            <span className="font-medium">{key}:</span> {String(value)}
+                          </span>
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>

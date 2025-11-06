@@ -95,15 +95,15 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                 <AccordionItem value="specs" className="bg-white rounded-lg shadow-sm border-0">
                   <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-gray-50 rounded-t-lg">
                     <div className="flex items-center text-xl font-semibold text-gray-800">
-                      <Info className="w-5 h-5 mr-2 text-purple-500" />
+                      <Info className="w-5 h-5 mr-2 text-blue-500" />
                       Teknik Özellikler
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className="px-6 pb-6">
-                    <ul className="space-y-2 text-gray-600">
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-600">
                       {Object.entries(product.specs).map(([key, value]) => (
                         <li key={key} className="flex items-start">
-                          <span className="w-2 h-2 rounded-full bg-purple-500 mr-2 flex-shrink-0 mt-2"></span>
+                          <span className="w-2 h-2 rounded-full bg-blue-500 mr-2 flex-shrink-0 mt-2"></span>
                           <span>
                             <span className="font-medium">{key}:</span> {String(value)}
                           </span>
