@@ -25,27 +25,60 @@ export function ServiceRequestForm() {
     const formData = new FormData(event.currentTarget)
     const serviceType = (formData.get("serviceType") as string) || "Genel"
     formData.append("subject", `Servis Talebi: ${serviceType}`)
-
     try {
-      const result = await sendEmailSMTP(formData)
+      // Build a WhatsApp message from the form fields
+      const name = (formData.get("name") as string) || ""
+      const email = (formData.get("email") as string) || ""
+      const phone = (formData.get("phone") as string) || ""
+      const productTable = (formData.get("productTable") as string) || ""
+      const productModel = (formData.get("productModel") as string) || ""
+      const messageBody = (formData.get("message") as string) || ""
 
-      if (result.success) {
-        setFormStatus({
-          success: true,
-          message: "Servis talebiniz başarıyla gönderildi! En kısa sürede size dönüş yapacağız.",
-        })
-        // Reset form
-        formRef.current?.reset()
-      } else {
-        setFormStatus({
-          success: false,
-          message: result.error || "Servis talebi gönderilirken bir hata oluştu. Lütfen tekrar deneyin.",
-        })
+      // Format service type for display (e.g. tv-kurulum -> TV Kurulum)
+      const formatServiceType = (s: string) => {
+        if (!s) return "Genel"
+        return s
+          .split("-")
+          .map((w) => (w.toLowerCase() === "tv" ? "TV" : w.charAt(0).toUpperCase() + w.slice(1)))
+          .join(" ")
       }
+
+      const productTableLabel = (productTables.find((t) => t.value === productTable) || { label: productTable }).label
+      const serviceTypeLabel = formatServiceType(serviceType)
+
+      const parts: string[] = []
+      parts.push("📩 Servis Talebi")
+      parts.push("")
+      parts.push(`Ad Soyad: ${name || "-"}`)
+      parts.push(`Telefon: ${phone || "-"}`)
+      parts.push(`E-posta: ${email || "-"}`)
+      parts.push(`Servis Tipi: ${serviceTypeLabel}`)
+      parts.push(`Kategori: ${productTableLabel || "-"}`)
+      parts.push(`Model: ${productModel || "-"}`)
+      parts.push("")
+      parts.push("Açıklama")
+      parts.push(messageBody || "-")
+      parts.push("")
+
+      const waMessage = parts.join("\n")
+
+      const waNumber = "908502552400" // +90 850 255 2400 without + and spaces
+      const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`
+
+      // Open WhatsApp in a new tab (works on desktop/mobile)
+      window.open(waUrl, "_blank")
+
+      setFormStatus({
+        success: true,
+        message: "WhatsApp ile iletişim penceresi açıldı. Mesajınız uygulamada hazırlandı.",
+      })
+
+      // Optionally reset the form
+      formRef.current?.reset()
     } catch (error) {
       setFormStatus({
         success: false,
-        message: "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.",
+        message: "Mesaj gönderilirken bir hata oluştu. Lütfen tekrar deneyin.",
       })
     } finally {
       setIsSubmitting(false)
