@@ -8,6 +8,7 @@ import { sendEmailSMTP } from "@/app/actions/email-smtp-actions"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { parsePhoneNumberFromString } from "libphonenumber-js"
 
 export function ServiceRequestForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -30,6 +31,18 @@ export function ServiceRequestForm() {
       const name = (formData.get("name") as string) || ""
       const email = (formData.get("email") as string) || ""
       const phone = (formData.get("phone") as string) || ""
+      const phoneCountry = (formData.get("phoneCountry") as string) || "+90"
+      // normalize combined phone number and attempt E.164/international formatting
+      const rawCombined = `${phoneCountry}${phone}`.replace(/\s+/g, "").trim()
+      let combinedPhone = `${phoneCountry} ${phone}`.replace(/\s+/g, " ").trim()
+      try {
+        const parsed = parsePhoneNumberFromString(rawCombined)
+        if (parsed && parsed.isValid()) {
+          combinedPhone = parsed.formatInternational()
+        }
+      } catch (e) {
+        // ignore parse errors and fallback to combinedPhone
+      }
       const productTable = (formData.get("productTable") as string) || ""
       const productModel = (formData.get("productModel") as string) || ""
       const messageBody = (formData.get("message") as string) || ""
@@ -50,7 +63,7 @@ export function ServiceRequestForm() {
       parts.push("📩 Servis Talebi")
       parts.push("")
       parts.push(`Ad Soyad: ${name || "-"}`)
-      parts.push(`Telefon: ${phone || "-"}`)
+      parts.push(`Telefon: ${combinedPhone || "-"}`)
       parts.push(`E-posta: ${email || "-"}`)
       parts.push(`Servis Tipi: ${serviceTypeLabel}`)
       parts.push(`Kategori: ${productTableLabel || "-"}`)
@@ -89,12 +102,36 @@ export function ServiceRequestForm() {
   const [productTables] = useState([
     { value: "thomson", label: "Thomson" },
     { value: "dreames", label: "Dreame" },
-    // Add more tables/categories here if needed
+    { value: "sandisk", label: "SanDisk" },
+    { value: "philips", label: "Philips" },
+    { value: "optoma", label: "Optoma" },
+    { value: "rapoo", label: "Rapoo" },
+    { value: "instant", label: "Instant" },
   ])
   const [selectedTable, setSelectedTable] = useState("")
   const [productOptions, setProductOptions] = useState<{ value: string; label: string }[]>([])
   const [selectedProduct, setSelectedProduct] = useState("")
   const [loadingProducts, setLoadingProducts] = useState(false)
+
+  // Country options with emoji flags
+  const countryOptions = [
+    { value: "+90", label: "Türkiye", flag: "🇹🇷" },
+    { value: "+1", label: "USA", flag: "🇺🇸" },
+    { value: "+44", label: "UK", flag: "🇬🇧" },
+    { value: "+49", label: "Germany", flag: "🇩🇪" },
+    { value: "+33", label: "France", flag: "🇫🇷" },
+    { value: "+39", label: "Italy", flag: "🇮🇹" },
+    { value: "+34", label: "Spain", flag: "🇪🇸" },
+    { value: "+31", label: "Netherlands", flag: "🇳🇱" },
+    { value: "+41", label: "Switzerland", flag: "🇨🇭" },
+    { value: "+46", label: "Sweden", flag: "🇸🇪" },
+    { value: "+61", label: "Australia", flag: "🇦🇺" },
+    { value: "+91", label: "India", flag: "🇮🇳" },
+    { value: "+86", label: "China", flag: "🇨🇳" },
+    { value: "+81", label: "Japan", flag: "🇯🇵" },
+    { value: "+55", label: "Brazil", flag: "🇧🇷" },
+    { value: "+27", label: "South Africa", flag: "🇿🇦" },
+  ]
 
   useEffect(() => {
     if (!selectedTable) {
@@ -152,7 +189,36 @@ export function ServiceRequestForm() {
           <label htmlFor="phone" className="text-sm font-medium">
             Telefon Numaranız
           </label>
-          <Input id="phone" name="phone" placeholder="05XX XXX XX XX" required />
+          <div className="flex gap-2">
+            <select
+              id="phoneCountry"
+              name="phoneCountry"
+              defaultValue="+90"
+              className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
+              aria-label="Ülke kodu"
+            >
+              {countryOptions.map((c) => (
+                <option key={c.value} value={c.value}>{`${c.flag} ${c.value} ${c.label}`}</option>
+              ))}
+            </select>
+            <Input
+              id="phone"
+              name="phone"
+              type="tel"
+              placeholder="5XXXXXXXXX"
+              required
+              maxLength={25}
+              pattern="^[0-9 ()\\-]{6,}$"
+              title="Lütfen geçerli bir telefon numarası girin. Örn: 5XXXXXXXXX"
+              onInput={(e: React.FormEvent<HTMLInputElement>) => {
+                const el = e.currentTarget as HTMLInputElement
+                // Remove any characters except digits, whitespace, parentheses and hyphen (no plus here)
+                  el.value = el.value.replace(/[^0-9()\-\s]/g, "")
+              }}
+              className="w-full"
+            />
+          </div>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Uluslararası format desteklenir; ülke kodunu seçin, sonra numarayı girin.</p>
         </div>
         <div className="space-y-2">
           <label htmlFor="serviceType" className="text-sm font-medium">
@@ -181,7 +247,7 @@ export function ServiceRequestForm() {
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium">Ürün Modeli</label>
+        <label className="text-sm font-medium">Marka ve Model</label>
         <div className="flex flex-col md:flex-row gap-2">
           <select
             className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:w-1/2"
@@ -194,7 +260,7 @@ export function ServiceRequestForm() {
             name="productTable"
             id="productTable"
           >
-            <option value="">Kategori seçin</option>
+            <option value="">Marka seçin</option>
             {productTables.map((t) => (
               <option key={t.value} value={t.value}>{t.label}</option>
             ))}
