@@ -82,9 +82,10 @@ export default function IletisimPageClient() {
                   <div>
                     <h3 className="font-semibold text-lg">Adres</h3>
                     <p className="mt-1 text-gray-600 dark:text-gray-300">
-                      Atatürk Mah. Ertuğrul Gazi Sok. No:21
+                      Premier Kampüs
+                      Gürsel Mahallesi, İmrahor Caddesi No:29 A Blok/212
                       <br />
-                      Ataşehir, İstanbul, 34758
+                      Kağıthane / İstanbul
                       <br />
                       Türkiye
                     </p>
