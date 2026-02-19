@@ -4,7 +4,6 @@ import { getProducts } from "@/app/actions/product-actions"
 import { getCategoryDisplayName } from "@/lib/dreame-products"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { ArrowLeft, CheckCircle, Info, Wrench } from "lucide-react"
 import Link from "next/link"
 
@@ -69,51 +68,52 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
               <p className="text-lg text-gray-700 leading-relaxed">{product.description}</p>
             </div>
 
-            <Accordion type="single" collapsible className="w-full space-y-4">
-              {Array.isArray(product.features) && product.features.length > 0 && (
-                <AccordionItem value="features" className="bg-white rounded-lg shadow-sm border-0">
-                  <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-gray-50 rounded-t-lg">
-                    <div className="flex items-center text-xl font-semibold text-gray-800">
-                      <CheckCircle className="w-5 h-5 mr-2 text-green-500" />
-                      Öne Çıkan Özellikler
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="px-6 pb-6">
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-600">
-                      {product.features.map((feature: string, index: number) => (
-                        <li key={index} className="flex items-center">
-                          <span className="w-2 h-2 rounded-full bg-purple-500 mr-2 flex-shrink-0"></span>
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </AccordionContent>
-                </AccordionItem>
-              )}
+            {Array.isArray(product.features) && product.features.length > 0 && (
+              <Card className="shadow-sm">
+                <CardHeader>
+                  <CardTitle className="flex items-center text-xl font-semibold text-gray-800">
+                    <CheckCircle className="w-5 h-5 mr-2 text-green-500" />
+                    Öne Çıkan Özellikler
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-600">
+                    {product.features.map((feature: string, index: number) => (
+                      <li key={index} className="flex items-center">
+                        <span className="w-2 h-2 rounded-full bg-purple-500 mr-2 flex-shrink-0"></span>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            )}
 
-              {product.specs && Object.keys(product.specs).length > 0 && (
-                <AccordionItem value="specs" className="bg-white rounded-lg shadow-sm border-0">
-                  <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-gray-50 rounded-t-lg">
-                    <div className="flex items-center text-xl font-semibold text-gray-800">
-                      <Info className="w-5 h-5 mr-2 text-blue-500" />
-                      Teknik Özellikler
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="px-6 pb-6">
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-600">
-                      {Object.entries(product.specs).map(([key, value]) => (
-                        <li key={key} className="flex items-start">
-                          <span className="w-2 h-2 rounded-full bg-blue-500 mr-2 flex-shrink-0 mt-2"></span>
-                          <span>
-                            <span className="font-medium">{key}:</span> {String(value)}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </AccordionContent>
-                </AccordionItem>
-              )}
-            </Accordion>
+            {product.specs && Object.keys(product.specs).length > 0 && (
+              <Card className="shadow-sm">
+                <CardHeader>
+                  <CardTitle className="flex items-center text-xl font-semibold text-gray-800">
+                    <Info className="w-5 h-5 mr-2 text-blue-500" />
+                    Teknik Özellikler
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-600">
+                    {Object.entries(product.specs).map(([key, value]) => (
+                      <div
+                        key={key}
+                        className="flex justify-between items-center border-b border-gray-200 py-2 last:border-b-0"
+                      >
+                        <span className="font-medium">{key}:</span>
+                        <span>{String(value)}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* ...support section removed as requested... */}
           </div>
         </div>
       </div>
