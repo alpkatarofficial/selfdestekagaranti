@@ -173,7 +173,7 @@ export default function Footer() {
 
         {/* Alt Bilgi */}
         <div className="mt-12 pt-8 border-t border-white/20 text-center">
-          <p className="text-white/60 text-xs">© 2024 AGaranti. Tüm hakları saklıdır.</p>
+          <p className="text-white/60 text-xs">© 2026 AGaranti. Tüm hakları saklıdır.</p>
         </div>
       </div>
     </footer>
