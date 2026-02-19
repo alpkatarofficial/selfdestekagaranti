@@ -94,7 +94,84 @@ export default function ProductList({ products = [] }: ProductListProps) {
 
   return (
     <div className="space-y-6">
-      {/* Filters (no header) */}
+      {/* Filters */}
+      <div className="bg-white p-6 rounded-xl shadow-md">
+        <div className="flex items-center gap-2 mb-4">
+          <Filter className="h-5 w-5 text-gray-500" />
+          <h2 className="text-lg font-semibold">Ürünleri Filtrele</h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Arama</label>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <Input
+                type="text"
+                placeholder="Ürün ara..."
+                className="pl-10"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Kategori</label>
+            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <SelectTrigger>
+                <SelectValue placeholder="Tüm kategoriler" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Tüm kategoriler</SelectItem>
+                {categories.map((category) => (
+                  <SelectItem key={category} value={category}>
+                    {category}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Çözünürlük</label>
+            <Select value={selectedResolution} onValueChange={setSelectedResolution}>
+              <SelectTrigger>
+                <SelectValue placeholder="Tüm çözünürlükler" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Tüm çözünürlükler</SelectItem>
+                {resolutions.map((resolution) => (
+                  <SelectItem key={resolution} value={resolution}>
+                    {resolution}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">TV Tipi</label>
+            <Select value={selectedTvType} onValueChange={setSelectedTvType}>
+              <SelectTrigger>
+                <SelectValue placeholder="Tüm tipler" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Tüm tipler</SelectItem>
+                {tvTypes.map((tvType) => (
+                  <SelectItem key={tvType} value={tvType}>
+                    {tvType}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        <div className="mt-4 text-sm text-gray-600">
+          {filteredProducts.length} ürün gösteriliyor (toplam {products.length} ürün)
+        </div>
+      </div>
 
       {/* Products Grid */}
       {filteredProducts.length === 0 ? (
@@ -175,6 +252,14 @@ export default function ProductList({ products = [] }: ProductListProps) {
                   {product.description && (
                     <p className="text-sm text-gray-600 line-clamp-2 mb-4">{product.description}</p>
                   )}
+
+                  <Button
+                    variant="ghost"
+                    className="w-full text-blue-600 hover:bg-blue-100 hover:text-blue-700 transition-all duration-300"
+                  >
+                    Detayları İncele
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
                 </CardContent>
               </Card>
             </Link>

@@ -149,7 +149,7 @@ export default function Footer() {
           <div className="col-span-1">
             <h3 className="text-white font-primary font-bold text-lg mb-4">İletişim</h3>
             <p className="text-white/80 text-sm mb-2">
-              <span className="font-medium"> İstanbul Genel Müdürlük Adres:</span> Premier Kampüs Gürsel Mahallesi, İmrahor Caddesi No:29 A Blok/212 Kağıthane / İstanbul
+              <span className="font-medium"> İstanbul Genel Müdürlük Adres:</span> Premier Kampüs  <br></br>Gürsel Mahallesi, İmrahor Caddesi No:29 A Blok/212 Kağıthane / İstanbul
             </p>
             <p className="text-white/80 text-sm mb-2">
               <span className="font-medium">Telefon:</span> +90 212 364 64 64
