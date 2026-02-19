@@ -247,7 +247,10 @@ export default function IletisimPageClient() {
                   <MapPin className="h-12 w-12 mx-auto mb-2 text-primary" />
                   <p className="text-lg font-medium">Harita görüntüsü</p>
                   <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
-                    Atatürk Mah. Ertuğrul Gazi Sok. No:21, Ataşehir, İstanbul
+                    Premier Kampüs
+                    Gürsel Mahallesi, İmrahor Caddesi No:29 A Blok/212
+                    Kağıthane / İstanbul
+
                   </p>
                   <Button variant="outline" size="sm" asChild>
                     <Link
