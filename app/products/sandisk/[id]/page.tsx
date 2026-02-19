@@ -5,16 +5,17 @@ import { supabase } from "@/lib/supabase"
 // Define the SandiskProduct interface to match your Supabase table schema
 interface SandiskProduct {
   id: string
+  model_name: string
   name: string
-  category?: string
-  description?: string
-  features?: string | string[]
-  specs?: string
+  description: string
+  storage_type?: string
+  capacity?: string
   image_url?: string
-  user_manual?: string
+  price?: number
+  features?: string[]
+  ports?: string[]
   created_at?: string
   updated_at?: string
-  [key: string]: any
 }
 
 // This is a Server Component that fetches data for a specific product
@@ -47,12 +48,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
 
     if (data && data.length > 0) {
       product = data[0] as SandiskProduct
-      console.log("Sandisk Detail Page: Product found:", { 
-        id: product.id, 
-        name: product.name, 
-        features: product.features, 
-        specs: product.specs 
-      })
+      // Optionally log or handle product
     } else {
       error = `ID'si “${productId}” olan ürün bulunamadı.`
     }

@@ -149,14 +149,15 @@ export default function Footer() {
           <div className="col-span-1">
             <h3 className="text-white font-primary font-bold text-lg mb-4">İletişim</h3>
             <p className="text-white/80 text-sm mb-2">
-              <span className="font-medium">Adres:</span> Göktürk Merkez Mh., Göktürk Caddesi 4 Eyüpsultan/İstanbul,
-              34077
+              <span className="font-medium">Adres:</span> Premier Kampüs 
+              Gürsel Mahallesi, İmrahor Caddesi No:29 A Blok/212 
+              Kağıthane / İstanbul
             </p>
             <p className="text-white/80 text-sm mb-2">
-              <span className="font-medium">Telefon:</span> +90 850 255 24 00
+              <span className="font-medium">Telefon:</span> +90 212 364 64 64
             </p>
             <p className="text-white/80 text-sm mb-4">
-              <span className="font-medium">E-posta:</span> info@agaranti.com.tr
+              <span className="font-medium">E-posta:</span> musteri.hizmetleri@arena.com.tr
             </p>
             {/* WhatsApp butonunu güncelledim */}
             <WhatsAppButton
@@ -172,7 +173,7 @@ export default function Footer() {
 
         {/* Alt Bilgi */}
         <div className="mt-12 pt-8 border-t border-white/20 text-center">
-          <p className="text-white/60 text-xs">© 2024 AGaranti. Tüm hakları saklıdır.</p>
+          <p className="text-white/60 text-xs">© 2026 AGaranti. Tüm hakları saklıdır.</p>
         </div>
       </div>
     </footer>

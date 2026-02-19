@@ -1341,39 +1341,8 @@ const sparePartsDatabase: SparePart[] = [
   },
 ]
 
-// FAQ typings — allow mixed id types and optional category to match data
-type FAQItem = {
-  id: string | number
-  question: string
-  answer: string
-  category?: string
-}
-
-type FaqCategory = {
-  id: string
-  title: string
-  icon?: React.ReactNode
-  image?: string
-  faqs: FAQItem[]
-}
-
 // Update the faqCategories with more realistic data based on the example site
-const faqCategories: FaqCategory[] = [
-  {
-    id: "sandisk",
-    title: "Sandisk Yardım Kategorileri",
-    icon: <HardDrive className="h-6 w-6" />,
-    image: "/images/sandisk.jpg",
-    faqs: [
-      {
-        id: "sandisk-1",
-        question: "Sandisk ürünümle ilgili teknik destek nasıl alabilirim?",
-        answer: "Sandisk ürünleri için destek ve yardım almak için bu kategoriyi kullanabilirsiniz.",
-        category: "sandisk",
-      },
-      // Diğer Sandisk soruları buraya eklenebilir
-    ],
-  },
+const faqCategories = [
   {
     id: "dreame",
     title: "Dreame Ürünleri Desteği",
@@ -2937,7 +2906,7 @@ export default function SelfServicePortal() {
                 </div>
 
                 {/* Popular searches */}
-                <div className="mt-6 flex flex-wrap justify-center gap-2">
+                <div className="mt-6 flex flex-wrap justify-center gap-2 hidden">
                   {popularSearches.map((search, index) => (
                     <Button
                       key={index}
