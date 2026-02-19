@@ -37,21 +37,13 @@ export default function IletisimPageClient() {
                 <div className="flex items-start space-x-4">
                   <Mail className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="font-semibold text-lg">E-posta Adreslerimiz</h3>
+                    <h3 className="font-semibold text-lg">E-posta Adresimiz</h3>
                     <p className="mt-1 text-gray-600 dark:text-gray-300">
                       <Link
-                        href="mailto:info@agaranti.com"
+                        href="mailto:musteri.hizmetleri@arena.com.tr"
                         className="hover:underline hover:text-primary transition-colors"
                       >
-                        info@agaranti.com
-                      </Link>
-                    </p>
-                    <p className="mt-1 text-gray-600 dark:text-gray-300">
-                      <Link
-                        href="mailto:agaranti@arena.com.tr"
-                        className="hover:underline hover:text-primary transition-colors"
-                      >
-                        selfservis@agaranti.com.tr
+                        musteri.hizmetleri@arena.com.tr
                       </Link>
                     </p>
                   </div>
@@ -60,12 +52,35 @@ export default function IletisimPageClient() {
                 <div className="flex items-start space-x-4">
                   <Phone className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="font-semibold text-lg">Telefon</h3>
-                    <p className="mt-1 text-gray-600 dark:text-gray-300">Müşteri Hizmetleri: 0850 255 24 00</p>
+                    <h3 className="font-semibold text-lg">Telefon & Faks</h3>
+                    <div className="mt-1 text-gray-600 dark:text-gray-300">
+                      <strong>İstanbul Genel Müdürlük</strong>
+                      <p className="mt-1">
+                        Telefon numarası: +90 212 364 64 64
+                        <br />
+                        Faks numarası: +90 212 310 46 80
+                        <br />
+                        E-Posta Adresi: <Link href="mailto:musteri.hizmetleri@arena.com.tr" className="hover:underline hover:text-primary transition-colors">musteri.hizmetleri@arena.com.tr</Link>
+                      </p>
+
+                      <div className="mt-3">
+                        <strong>İstanbul Teknik Servis ve Depo</strong>
+                        <p className="mt-1">
+                          Telefon numarası: +90 212 364 67 00
+                          <br />
+                          Depo Fax: +90 212 310 46 85
+                          <br />
+                          Teknik Servis Fax: +90 212 310 46 86
+                          <br />
+                          E-Posta Adresi: <Link href="mailto:musteri.hizmetleri@arena.com.tr" className="hover:underline hover:text-primary transition-colors">musteri.hizmetleri@arena.com.tr</Link>
+                        </p>
+                      </div>
+                    </div>
+
                     <div className="mt-3">
                       <WhatsAppButton
-                        phoneNumber="+905454500011"
-                        message="Merhaba, AGaranti hakkında bilgi almak istiyorum."
+                        phoneNumber="+902123646464"
+                        message="Merhaba, Arena müşteri hizmetleri ile görüşmek istiyorum."
                         variant="outline"
                         size="sm"
                         className="flex items-center gap-2 text-green-600 border-green-600 hover:bg-green-50"
@@ -80,14 +95,26 @@ export default function IletisimPageClient() {
                 <div className="flex items-start space-x-4">
                   <MapPin className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="font-semibold text-lg">Adres</h3>
-                    <p className="mt-1 text-gray-600 dark:text-gray-300">
-                      Atatürk Mah. Ertuğrul Gazi Sok. No:21
-                      <br />
-                      Ataşehir, İstanbul, 34758
-                      <br />
-                      Türkiye
-                    </p>
+                    <h3 className="font-semibold text-lg">Adreslerimiz</h3>
+                    <div className="mt-1 text-gray-600 dark:text-gray-300">
+                      <strong>İstanbul Genel Müdürlük</strong>
+                      <p className="mt-1">
+                        Premier Kampüs
+                        <br />
+                        Gürsel Mahallesi, İmrahor Caddesi No:29 A Blok/212
+                        <br />
+                        Kağıthane / İstanbul
+                      </p>
+
+                      <div className="mt-3">
+                        <strong>İstanbul Teknik Servis ve Depo</strong>
+                        <p className="mt-1">
+                          Ramazanoğlu Mahallesi, Transtek Caddesi No:2 34906
+                          <br />
+                          Pendik / İstanbul
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -246,11 +273,11 @@ export default function IletisimPageClient() {
                   <MapPin className="h-12 w-12 mx-auto mb-2 text-primary" />
                   <p className="text-lg font-medium">Harita görüntüsü</p>
                   <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
-                    Atatürk Mah. Ertuğrul Gazi Sok. No:21, Ataşehir, İstanbul
+                    Premier Kampüs — Gürsel Mahallesi, İmrahor Caddesi No:29 A Blok/212, Kağıthane / İstanbul
                   </p>
                   <Button variant="outline" size="sm" asChild>
                     <Link
-                      href="https://maps.google.com"
+                      href="https://www.google.com/maps/search/?api=1&query=G%C3%BCrsel+Mahallesi+%C4%B0mrahor+Caddesi+No%3A29+Ka%C4%9Fthane+%C4%B0stanbul"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center"
